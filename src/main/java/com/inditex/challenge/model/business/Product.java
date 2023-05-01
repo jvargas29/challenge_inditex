@@ -12,5 +12,7 @@ public class Product {
     private Long sequence;
 
     private Set<Size> sizes;
-
+    public boolean hasSpecialSize(){
+        return sizes.stream().anyMatch(Size::isSpecial);
+    }
 }

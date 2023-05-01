@@ -1,4 +1,4 @@
-package com.inditex.challenge.service;
+package com.inditex.challenge.unit.service;
 
 import com.inditex.challenge.model.business.Product;
 import com.inditex.challenge.model.business.Size;
@@ -6,6 +6,7 @@ import com.inditex.challenge.model.entity.ProductEntity;
 import com.inditex.challenge.model.entity.SizeEntity;
 import com.inditex.challenge.model.entity.StockEntity;
 import com.inditex.challenge.model.repository.ProductRepository;
+import com.inditex.challenge.service.ProductService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

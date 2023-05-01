@@ -13,4 +13,15 @@ public class Size {
     private boolean special;
     private Integer quantity;
 
+    public boolean hasStock(){
+        return this.quantity>0;
+    }
+
+    public boolean isSpecialAndHasStock(){
+        return this.isSpecial() && (this.hasStock() || this.isBackSoon());
+    }
+
+    public boolean isCommonAndHasStock(){
+        return !this.isSpecial() && (this.hasStock() || this.isBackSoon());
+    }
 }
