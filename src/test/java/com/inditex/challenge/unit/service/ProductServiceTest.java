@@ -16,6 +16,7 @@ import org.mockito.internal.util.collections.Sets;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -33,6 +34,37 @@ class ProductServiceTest {
 
     @BeforeEach
     public void setup(){
+
+        product = Product.builder()
+                .id(1L)
+                .sequence(10L)
+                .sizes(setupSizesCommonValid())
+                .build();
+
+        productEntity = new ProductEntity();
+        productEntity.setId(1L);
+        productEntity.setSequence(10L);
+        productEntity.setSize(setupSizesEntitiesCommonValid());
+    }
+    @Test
+    void whenGetProduct_thenReturnProduct_Ok(){
+        when(productRepository.findAll()).thenReturn(List.of(productEntity));
+        List<Product> productList = productService.getAllProducts();
+
+        assertEquals(1, productList.size());
+        assertEquals(3, productList.get(0).getSizes().size());
+        assertEquals(product, productList.get(0));
+        }
+
+    @Test
+    void whenGetProductEmpty_thenReturnEmpty(){
+        when(productRepository.findAll()).thenReturn(Lists.newArrayList());
+        List<Product> productList = productService.getAllProducts();
+
+        assertTrue(productList.isEmpty());
+    }
+
+    private Set<Size> setupSizesCommonValid(){
         Size size = Size.builder()
                 .sizeId(1L)
                 .productId(1L)
@@ -56,14 +88,10 @@ class ProductServiceTest {
                 .backSoon(false)
                 .quantity(10)
                 .build();
+        return Sets.newSet(size,size2,size3);
+    }
 
-
-        product = Product.builder()
-                .id(1L)
-                .sequence(10L)
-                .sizes(Sets.newSet(size,size2,size3))
-                .build();
-
+    private Set<SizeEntity> setupSizesEntitiesCommonValid() {
         StockEntity stockEntity = new StockEntity();
         stockEntity.setSizeId(1L);
         stockEntity.setQuantity(10);
@@ -97,28 +125,7 @@ class ProductServiceTest {
         sizeEntity3.setBackSoon(false);
         sizeEntity3.setStock(stockEntity3);
 
-        productEntity = new ProductEntity();
-        productEntity.setId(1L);
-        productEntity.setSequence(10L);
-        productEntity.setSize(Sets.newSet(sizeEntity,sizeEntity2,sizeEntity3));
-    }
-
-    @Test
-    void whenGetProduct_thenReturnProduct_Ok(){
-        when(productRepository.findAll()).thenReturn(List.of(productEntity));
-        List<Product> productList = productService.getAllProducts();
-
-        assertEquals(1, productList.size());
-        assertEquals(3, productList.get(0).getSizes().size());
-        assertEquals(product, productList.get(0));
-        }
-
-    @Test
-    void whenGetProductEmpty_thenReturnEmpty(){
-        when(productRepository.findAll()).thenReturn(Lists.newArrayList());
-        List<Product> productList = productService.getAllProducts();
-
-        assertTrue(productList.isEmpty());
+        return Sets.newSet(sizeEntity,sizeEntity2,sizeEntity3);
     }
 
 }
