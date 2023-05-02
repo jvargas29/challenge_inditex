@@ -1,5 +1,6 @@
 package com.inditex.challenge.service.mapper;
 
+import com.inditex.challenge.model.ProductResponse;
 import com.inditex.challenge.model.business.Product;
 import com.inditex.challenge.model.business.Size;
 import com.inditex.challenge.model.entity.ProductEntity;
@@ -17,6 +18,10 @@ import java.util.Set;
 public interface ProductMapper {
 
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
+
+    @Mapping(target = "productsId", source = "productList")
+    ProductResponse productToProductResponse(String productList);
+
     @IterableMapping(qualifiedByName = "entityToProduct")
     List<Product> getListEntityToProductList(List<ProductEntity> products);
     @Named("entityToProduct")
